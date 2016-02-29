@@ -21,24 +21,24 @@
             <ToggleButton fx:id="ovalButton" mnemonicParsing="false" onAction="#setOvalAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Owal" textAlignment="CENTER" />
             <ToggleButton fx:id="pencilButton" mnemonicParsing="false" onAction="#setPencilAsCurrentShape" prefHeight="25.0" prefWidth="80.0" selected="true" text="Ołówek" textAlignment="CENTER" />
             <Separator maxWidth="150.0" prefWidth="150.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz kolor:" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kolor:" />
             <ColorPicker fx:id="colorPicker" prefHeight="25.0" prefWidth="120.0" promptText="Kolor" />
             <Separator maxWidth="150.0" prefWidth="150.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz sposób rysowania:" />
-            <RadioButton fx:id="strokeRB" mnemonicParsing="false" selected="true" text="Kontury">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sposób rysowania:" />
+            <RadioButton fx:id="outlineRb" mnemonicParsing="false" selected="true" text="Kontury">
                <toggleGroup>
                   <ToggleGroup fx:id="shapes" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="fillRB" mnemonicParsing="false" text="Wypełnione" toggleGroup="$shapes" />
+            <RadioButton fx:id="fillRb" mnemonicParsing="false" text="Wypełnione" toggleGroup="$shapes" />
             <Separator maxWidth="150.0" prefWidth="150.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grubość" />
             <Slider fx:id="sizeSlider" prefHeight="14.0" prefWidth="59.0" />
             <Separator maxWidth="150.0" prefWidth="150.0" />
-            <Button fx:id="cleanButton" mnemonicParsing="false" onAction="#clearCanvas" text="Wyczyść" />          
+            <Button fx:id="cleanButton" mnemonicParsing="false" onAction="#clearCanvas" prefHeight="25.0" prefWidth="80.0" text="Wyczyść" />          
         </items>
       </ToolBar>
-      <Canvas fx:id="finalCanvas" height="600.0" layoutX="150.0" width="851.0" />
-      <Canvas fx:id="workingCanvas" height="600.0" layoutX="150.0" onMouseDragged="#onMouseDraggedListener" onMousePressed="#onMousePressedListener" onMouseReleased="#onMouseReleaseListener" width="851.0" />          
+      <Canvas fx:id="finalCanvas" height="600.0" layoutX="161.0" width="840.0" />
+      <Canvas fx:id="workingCanvas" height="600.0" layoutX="161.0" onMouseDragged="#onMouseDraggedListener" onMousePressed="#onMousePressedListener" onMouseReleased="#onMouseReleaseListener" width="840.0" />          
    </children>
 </AnchorPane>
