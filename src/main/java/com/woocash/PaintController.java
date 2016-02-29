@@ -39,7 +39,7 @@ public class PaintController implements Initializable {
     
     private GraphicsContext finalPicture, workingPicture;
     
-    private String option = "pencil";
+    private String option = "rectangle";
     
     double startX, startY, lastX, lastY, oldCurveX, oldCurveY;
     
@@ -126,33 +126,33 @@ public class PaintController implements Initializable {
  
     private void drawRectangle() {
         
-        double wh = lastX - startX;
-        double hg = lastY - startY;
+        double width = lastX - startX;
+        double height = lastY - startY;
         
         finalPicture.setLineWidth(sizeSlider.getValue());
 
-        if(fillRb.isSelected()){
+        if(fillRb.isSelected()) {
             finalPicture.setFill(colorPicker.getValue());       // setFill - ustawiamy kolor wypełnienia
-            finalPicture.fillRect(startX, startY, wh, hg);
-        }else{
+            finalPicture.fillRect(startX, startY, width, height);
+        } else {
             finalPicture.setStroke(colorPicker.getValue());     // setStroke - ustawiamy kolor kontury
-            finalPicture.strokeRect(startX, startY, wh, hg);
+            finalPicture.strokeRect(startX, startY, width, height);
         }
     }
     
     private void drawOval() {
         
-        double wh = lastX - startX;
-        double hg = lastY - startY;
+        double width = lastX - startX;
+        double height = lastY - startY;
         
         finalPicture.setLineWidth(sizeSlider.getValue());
 
         if(fillRb.isSelected()) {
             finalPicture.setFill(colorPicker.getValue());       
-            finalPicture.fillOval(startX, startY, wh, hg);
+            finalPicture.fillOval(startX, startY, width, height);
         } else {
             finalPicture.setStroke(colorPicker.getValue());     
-            finalPicture.strokeOval(startX, startY, wh, hg);
+            finalPicture.strokeOval(startX, startY, width, height);
         }
     }
 
@@ -185,37 +185,37 @@ public class PaintController implements Initializable {
 
     private void drawOvalEffect() {
         
-        double wh = lastX - startX;
-        double hg = lastY - startY;
+        double width = lastX - startX;
+        double height = lastY - startY;
         
         workingPicture.setLineWidth(sizeSlider.getValue());
 
         if(fillRb.isSelected()) {
             workingPicture.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
             workingPicture.setFill(colorPicker.getValue());
-            workingPicture.fillOval(startX, startY, wh, hg);
+            workingPicture.fillOval(startX, startY, width, height);
         } else {
             workingPicture.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
             workingPicture.setStroke(colorPicker.getValue());
-            workingPicture.strokeOval(startX, startY, wh, hg);
+            workingPicture.strokeOval(startX, startY, width, height);
         }
     }
 
     private void drawRectangleEffect() {
         
-        double wh = lastX - startX;
-        double hg = lastY - startY;
+        double width = lastX - startX;
+        double height = lastY - startY;
         
         workingPicture.setLineWidth(sizeSlider.getValue());
 
         if(fillRb.isSelected()) {
             workingPicture.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
             workingPicture.setFill(colorPicker.getValue());
-            workingPicture.fillRect(startX, startY, wh, hg);
+            workingPicture.fillRect(startX, startY, width, height);
         } else {
             workingPicture.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
             workingPicture.setStroke(colorPicker.getValue());
-            workingPicture.strokeRect(startX, startY, wh, hg );
+            workingPicture.strokeRect(startX, startY, width, height );
         }
     }
 

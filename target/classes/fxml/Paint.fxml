@@ -15,11 +15,11 @@
       <ToolBar orientation="VERTICAL" prefHeight="600.0" prefWidth="150.0">
         <items>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kształty:" />
-            <ToggleButton fx:id="rectangleButton" mnemonicParsing="false" onAction="#setRectangleAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Prostokąt" textAlignment="CENTER" />
+            <ToggleButton fx:id="rectangleButton" mnemonicParsing="false" onAction="#setRectangleAsCurrentShape" prefHeight="25.0" prefWidth="80.0" selected="true" text="Prostokąt" textAlignment="CENTER" />
             <ToggleButton fx:id="lineButton" mnemonicParsing="false" onAction="#setLineAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Linia" textAlignment="CENTER" />
             <ToggleButton fx:id="curveButton" mnemonicParsing="false" onAction="#setCurveAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Krzywa" textAlignment="CENTER" />
             <ToggleButton fx:id="ovalButton" mnemonicParsing="false" onAction="#setOvalAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Owal" textAlignment="CENTER" />
-            <ToggleButton fx:id="pencilButton" mnemonicParsing="false" onAction="#setPencilAsCurrentShape" prefHeight="25.0" prefWidth="80.0" selected="true" text="Ołówek" textAlignment="CENTER" />
+            <ToggleButton fx:id="pencilButton" mnemonicParsing="false" onAction="#setPencilAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Ołówek" textAlignment="CENTER" />
             <Separator maxWidth="150.0" prefWidth="150.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kolor:" />
             <ColorPicker fx:id="colorPicker" prefHeight="25.0" prefWidth="120.0" promptText="Kolor" />
