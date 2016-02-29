@@ -22,8 +22,9 @@ import javafx.scene.input.MouseEvent;
 public class PaintController implements Initializable {
     //>>>>>>>>>>>>>>>>>>>>>>>Other variables<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     private GraphicsContext finalPicture, workingPicture;
-    private String option = "line";
-    double startX, startY, lastX, lastY, oldX, oldY, oldCurveX, oldCurveY;
+    private String option = "pencil";
+    double startX, startY, lastX, lastY, oldCurveX, oldCurveY;
+    boolean curveHelper = false;
     final ToggleGroup toggleGroupForShapes = new ToggleGroup();
     //>>>>>>>>>>>>>>>>>>>>>>>FXML Variables<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @FXML 
@@ -47,8 +48,12 @@ public class PaintController implements Initializable {
     private void onMousePressedListener(MouseEvent e) {
         this.startX = e.getX();
         this.startY = e.getY();
-        this.oldX = e.getX();
-        this.oldY = e.getY();
+        
+        if(curveHelper) {
+            this.oldCurveX = startX;
+            this.oldCurveY = startY;
+            this.curveHelper = false;
+        }
     }
 
     @FXML
@@ -134,9 +139,9 @@ public class PaintController implements Initializable {
     {
         finalPicture.setLineWidth(sizeSlider.getValue());
         finalPicture.setStroke(colorPicker.getValue());
-        finalPicture.strokeLine(oldX, oldY, lastX, lastY);
-        this.oldX = lastX;
-        this.oldY = lastY;
+        finalPicture.strokeLine(startX, startY, lastX, lastY);
+        this.startX = lastX;
+        this.startY = lastY;
     }
     
     private void drawCurve() {
@@ -199,6 +204,7 @@ public class PaintController implements Initializable {
     {
         finalPicture.clearRect(0, 0, finalCanvas.getWidth(), finalCanvas.getHeight());
         workingPicture.clearRect(0, 0, finalCanvas.getWidth(), finalCanvas.getHeight());
+        this.curveHelper = true;
     }
 
 
@@ -221,8 +227,7 @@ public class PaintController implements Initializable {
     @FXML
     private void setCurveAsCurrentShape(ActionEvent e) {
         this.option = "curve";
-        this.oldCurveX = startX;
-        this.oldCurveY = startY;
+        this.curveHelper = true;
     }
     
     @FXML
