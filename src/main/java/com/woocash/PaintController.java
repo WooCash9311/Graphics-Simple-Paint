@@ -23,7 +23,7 @@ public class PaintController implements Initializable {
     //>>>>>>>>>>>>>>>>>>>>>>>Other variables<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     private GraphicsContext finalPicture, workingPicture;
     private String option = "line";
-    double startX, startY, lastX, lastY, oldX, oldY;
+    double startX, startY, lastX, lastY, oldX, oldY, oldCurveX, oldCurveY;
     final ToggleGroup toggleGroupForShapes = new ToggleGroup();
     //>>>>>>>>>>>>>>>>>>>>>>>FXML Variables<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @FXML 
@@ -44,21 +44,15 @@ public class PaintController implements Initializable {
 
 
     @FXML
-    private void onMousePressedListener(MouseEvent e){
+    private void onMousePressedListener(MouseEvent e) {
         this.startX = e.getX();
         this.startY = e.getY();
         this.oldX = e.getX();
         this.oldY = e.getY();
-        
-        switch(option) {
-            case "curve":
-                drawCurve();
-                break;
-        }
     }
 
     @FXML
-    private void onMouseDraggedListener(MouseEvent e){
+    private void onMouseDraggedListener(MouseEvent e) {
         this.lastX = e.getX();
         this.lastY = e.getY();
 
@@ -79,7 +73,7 @@ public class PaintController implements Initializable {
     }
 
     @FXML
-    private void onMouseReleaseListener(MouseEvent e){
+    private void onMouseReleaseListener(MouseEvent e) {
         
         switch(option) {
             case "rectangle":
@@ -91,6 +85,9 @@ public class PaintController implements Initializable {
             case "line":
                 drawLine();
                 break;
+            case "curve":
+                drawCurve();
+                break;    
         }
     }
 
@@ -138,15 +135,17 @@ public class PaintController implements Initializable {
         finalPicture.setLineWidth(sizeSlider.getValue());
         finalPicture.setStroke(colorPicker.getValue());
         finalPicture.strokeLine(oldX, oldY, lastX, lastY);
-        oldX = lastX;
-        oldY = lastY;
+        this.oldX = lastX;
+        this.oldY = lastY;
     }
     
     private void drawCurve() {
         
         finalPicture.setLineWidth(sizeSlider.getValue());
         finalPicture.setStroke(colorPicker.getValue());
-        finalPicture.strokeLine(startX, startY, oldX, oldX);
+        finalPicture.strokeLine(oldCurveX, oldCurveY, startX, startY);
+        this.oldCurveX = startX;
+        this.oldCurveY = startY;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -222,6 +221,8 @@ public class PaintController implements Initializable {
     @FXML
     private void setCurveAsCurrentShape(ActionEvent e) {
         this.option = "curve";
+        this.oldCurveX = startX;
+        this.oldCurveY = startY;
     }
     
     @FXML
