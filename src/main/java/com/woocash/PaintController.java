@@ -23,7 +23,7 @@ import javafx.scene.input.MouseEvent;
  */
 public class PaintController implements Initializable {
     //>>>>>>>>>>>>>>>>>>>>>>>Other variables<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    private GraphicsContext gcB,gcF;
+    private GraphicsContext finalPicture,gcF;
     private boolean drawline = false,drawoval = false,drawrectangle = false,erase = false,freedesign = true;
     double startX, startY, lastX,lastY,oldX,oldY;
     double hg;
@@ -35,7 +35,7 @@ public class PaintController implements Initializable {
     private ColorPicker colorPick;
     
     @FXML
-    private Canvas TheCanvas,canvasGo;
+    private Canvas finalCanvas, workingCanvas;
     
     //@FXML 
     //private Button rectButton,lineButton,ovlButton,pencButton;
@@ -93,14 +93,14 @@ public class PaintController implements Initializable {
     {
         double wh = lastX - startX;
         double hg = lastY - startY;
-        gcB.setLineWidth(sizeSlider.getValue());
+        finalPicture.setLineWidth(sizeSlider.getValue());
 
         if(fillRB.isSelected()){
-            gcB.setFill(colorPick.getValue());
-            gcB.fillOval(startX, startY, wh, hg);
+            finalPicture.setFill(colorPick.getValue());
+            finalPicture.fillOval(startX, startY, wh, hg);
         }else{
-            gcB.setStroke(colorPick.getValue());
-            gcB.strokeOval(startX, startY, wh, hg);
+            finalPicture.setStroke(colorPick.getValue());
+            finalPicture.strokeOval(startX, startY, wh, hg);
         }
     }
 
@@ -108,29 +108,29 @@ public class PaintController implements Initializable {
     {
         double wh = lastX - startX;
         double hg = lastY - startY;
-        gcB.setLineWidth(sizeSlider.getValue());
+        finalPicture.setLineWidth(sizeSlider.getValue());
 
         if(fillRB.isSelected()){
-            gcB.setFill(colorPick.getValue());
-            gcB.fillRect(startX, startY, wh, hg);
+            finalPicture.setFill(colorPick.getValue());
+            finalPicture.fillRect(startX, startY, wh, hg);
         }else{
-            gcB.setStroke(colorPick.getValue());
-            gcB.strokeRect(startX, startY, wh, hg);
+            finalPicture.setStroke(colorPick.getValue());
+            finalPicture.strokeRect(startX, startY, wh, hg);
         }
     }
 
     private void drawLine()
     {
-        gcB.setLineWidth(sizeSlider.getValue());
-        gcB.setStroke(colorPick.getValue());
-        gcB.strokeLine(startX, startY, lastX, lastY);
+        finalPicture.setLineWidth(sizeSlider.getValue());
+        finalPicture.setStroke(colorPick.getValue());
+        finalPicture.strokeLine(startX, startY, lastX, lastY);
     }
 
     private void freeDrawing()
     {
-        gcB.setLineWidth(sizeSlider.getValue());
-        gcB.setStroke(colorPick.getValue());
-        gcB.strokeLine(oldX, oldY, lastX, lastY);
+        finalPicture.setLineWidth(sizeSlider.getValue());
+        finalPicture.setStroke(colorPick.getValue());
+        finalPicture.strokeLine(oldX, oldY, lastX, lastY);
         oldX = lastX;
         oldY = lastY;
     }
@@ -145,11 +145,11 @@ public class PaintController implements Initializable {
         gcF.setLineWidth(sizeSlider.getValue());
 
         if(fillRB.isSelected()){
-            gcF.clearRect(0, 0, canvasGo.getWidth(), canvasGo.getHeight());
+            gcF.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
             gcF.setFill(colorPick.getValue());
             gcF.fillOval(startX, startY, wh, hg);
         }else{
-            gcF.clearRect(0, 0, canvasGo.getWidth(), canvasGo.getHeight());
+            gcF.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
             gcF.setStroke(colorPick.getValue());
             gcF.strokeOval(startX, startY, wh, hg );
         }
@@ -162,11 +162,11 @@ public class PaintController implements Initializable {
         gcF.setLineWidth(sizeSlider.getValue());
 
         if(fillRB.isSelected()){
-            gcF.clearRect(0, 0, canvasGo.getWidth(), canvasGo.getHeight());
+            gcF.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
             gcF.setFill(colorPick.getValue());
             gcF.fillRect(startX, startY, wh, hg);
         }else{
-            gcF.clearRect(0, 0, canvasGo.getWidth(), canvasGo.getHeight());
+            gcF.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
             gcF.setStroke(colorPick.getValue());
             gcF.strokeRect(startX, startY, wh, hg );
         }
@@ -176,7 +176,7 @@ public class PaintController implements Initializable {
     {
         gcF.setLineWidth(sizeSlider.getValue());
         gcF.setStroke(colorPick.getValue());
-        gcF.clearRect(0, 0, canvasGo.getWidth() , canvasGo.getHeight());
+        gcF.clearRect(0, 0, workingCanvas.getWidth() , workingCanvas.getHeight());
         gcF.strokeLine(startX, startY, lastX, lastY);
     }
     ///////////////////////////////////////////////////////////////////////
@@ -184,15 +184,14 @@ public class PaintController implements Initializable {
     @FXML 
     private void clearCanvas(ActionEvent e)
     {
-        gcB.clearRect(0, 0, TheCanvas.getWidth(), TheCanvas.getHeight());
-        gcF.clearRect(0, 0, TheCanvas.getWidth(), TheCanvas.getHeight());
+        finalPicture.clearRect(0, 0, finalCanvas.getWidth(), finalCanvas.getHeight());
+        gcF.clearRect(0, 0, finalCanvas.getWidth(), finalCanvas.getHeight());
     }
 
 
     //>>>>>>>>>>>>>>>>>>>>>Buttons control<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @FXML
-    private void setOvalAsCurrentShape(ActionEvent e)
-    {
+    private void setOvalAsCurrentShape(ActionEvent e) {
         drawline = false;
         drawoval = true;
         drawrectangle = false;
@@ -201,8 +200,7 @@ public class PaintController implements Initializable {
     }
 
     @FXML
-    private void setLineAsCurrentShape(ActionEvent e)
-    {
+    private void setLineAsCurrentShape(ActionEvent e) {
         drawline = true;
         drawoval = false;
         drawrectangle = false;
@@ -211,8 +209,7 @@ public class PaintController implements Initializable {
     }
     
     @FXML
-    private void setRectangleAsCurrentShape(ActionEvent e)
-    {
+    private void setRectangleAsCurrentShape(ActionEvent e) {
         drawline = false;
         drawoval = false;
         freedesign = false;
@@ -221,8 +218,7 @@ public class PaintController implements Initializable {
     }
 
     @FXML
-    private void setErase(ActionEvent e)
-    {
+    private void setErase(ActionEvent e) {
         drawline = false;
         drawoval = false;
         drawrectangle = false;    
@@ -231,13 +227,22 @@ public class PaintController implements Initializable {
     }
 
     @FXML
-    private void setFreeDesign(ActionEvent e)
-    {
+    private void setFreeDesign(ActionEvent e) {
         drawline = false;
         drawoval = false;
         drawrectangle = false;    
         erase = false;
         freedesign = true;
+    }
+    
+    @FXML
+    private void setCurveAsCurrentShape(ActionEvent e) {
+        
+    }
+    
+    @FXML
+    private void setPencilAsCurrentShape(ActionEvent e) {
+        
     }
 
     //////////////////////////////////////////////////////////////////
@@ -245,8 +250,8 @@ public class PaintController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        gcB = TheCanvas.getGraphicsContext2D();
-        gcF = canvasGo.getGraphicsContext2D();
+        finalPicture = finalCanvas.getGraphicsContext2D();
+        gcF = workingCanvas.getGraphicsContext2D();
 
         sizeSlider.setMin(1);
         sizeSlider.setMax(50);
