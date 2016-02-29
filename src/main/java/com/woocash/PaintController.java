@@ -7,13 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -23,25 +21,22 @@ import javafx.scene.input.MouseEvent;
  */
 public class PaintController implements Initializable {
     //>>>>>>>>>>>>>>>>>>>>>>>Other variables<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    private GraphicsContext finalPicture,gcF;
-    private boolean drawline = false,drawoval = false,drawrectangle = false,erase = false,freedesign = true;
-    double startX, startY, lastX,lastY,oldX,oldY;
-    double hg;
+    private GraphicsContext finalPicture, workingPicture;
+    private String option = "line";
+    double startX, startY, lastX, lastY, oldX, oldY;
+    final ToggleGroup toggleGroupForShapes = new ToggleGroup();
     //>>>>>>>>>>>>>>>>>>>>>>>FXML Variables<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @FXML 
     private RadioButton strokeRB,fillRB;
     
     @FXML 
-    private ColorPicker colorPick;
+    private ColorPicker colorPicker;
     
     @FXML
     private Canvas finalCanvas, workingCanvas;
     
-    //@FXML 
-    //private Button rectButton,lineButton,ovlButton,pencButton;
-    
     @FXML
-    private ToggleButton rectangleButton, lineButton, ovalButton;
+    private ToggleButton rectangleButton, lineButton, curveButton, ovalButton, pencilButton;
     
     @FXML 
     private Slider sizeSlider;
@@ -54,6 +49,12 @@ public class PaintController implements Initializable {
         this.startY = e.getY();
         this.oldX = e.getX();
         this.oldY = e.getY();
+        
+        switch(option) {
+            case "curve":
+                drawCurve();
+                break;
+        }
     }
 
     @FXML
@@ -61,30 +62,36 @@ public class PaintController implements Initializable {
         this.lastX = e.getX();
         this.lastY = e.getY();
 
-        if(drawrectangle)
-            drawRectEffect();
-        if(drawoval)
-            drawOvalEffect();
-        if(drawline)
-            drawLineEffect();
-        if(freedesign)
-            freeDrawing();
+        switch(option) {
+            case "rectangle":
+                drawRectangleEffect();
+                break;
+            case "oval":
+                drawOvalEffect();
+                break;
+            case "line":
+                drawLineEffect();
+                break;
+            case "pencil":
+                pencilEffect();
+                break;
+        }
     }
 
     @FXML
     private void onMouseReleaseListener(MouseEvent e){
-        if(drawrectangle)
-            drawRect();
-        if(drawoval)
-            drawOval();
-        if(drawline)
-            drawLine();
-    }
-
-    @FXML
-    private void onMouseExitedListener(MouseEvent event)
-    {
-        System.out.println("Wyszedłeś poza obszar rysowania");
+        
+        switch(option) {
+            case "rectangle":
+                drawRectangle();
+                break;
+            case "oval":
+                drawOval();
+                break;
+            case "line":
+                drawLine();
+                break;
+        }
     }
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>Draw methods<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -96,25 +103,25 @@ public class PaintController implements Initializable {
         finalPicture.setLineWidth(sizeSlider.getValue());
 
         if(fillRB.isSelected()){
-            finalPicture.setFill(colorPick.getValue());
+            finalPicture.setFill(colorPicker.getValue());
             finalPicture.fillOval(startX, startY, wh, hg);
         }else{
-            finalPicture.setStroke(colorPick.getValue());
+            finalPicture.setStroke(colorPicker.getValue());
             finalPicture.strokeOval(startX, startY, wh, hg);
         }
     }
 
-    private void drawRect()
+    private void drawRectangle()
     {
         double wh = lastX - startX;
         double hg = lastY - startY;
         finalPicture.setLineWidth(sizeSlider.getValue());
 
         if(fillRB.isSelected()){
-            finalPicture.setFill(colorPick.getValue());
+            finalPicture.setFill(colorPicker.getValue());
             finalPicture.fillRect(startX, startY, wh, hg);
         }else{
-            finalPicture.setStroke(colorPick.getValue());
+            finalPicture.setStroke(colorPicker.getValue());
             finalPicture.strokeRect(startX, startY, wh, hg);
         }
     }
@@ -122,17 +129,24 @@ public class PaintController implements Initializable {
     private void drawLine()
     {
         finalPicture.setLineWidth(sizeSlider.getValue());
-        finalPicture.setStroke(colorPick.getValue());
+        finalPicture.setStroke(colorPicker.getValue());
         finalPicture.strokeLine(startX, startY, lastX, lastY);
     }
 
-    private void freeDrawing()
+    private void pencilEffect()
     {
         finalPicture.setLineWidth(sizeSlider.getValue());
-        finalPicture.setStroke(colorPick.getValue());
+        finalPicture.setStroke(colorPicker.getValue());
         finalPicture.strokeLine(oldX, oldY, lastX, lastY);
         oldX = lastX;
         oldY = lastY;
+    }
+    
+    private void drawCurve() {
+        
+        finalPicture.setLineWidth(sizeSlider.getValue());
+        finalPicture.setStroke(colorPicker.getValue());
+        finalPicture.strokeLine(startX, startY, oldX, oldX);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -142,42 +156,42 @@ public class PaintController implements Initializable {
     {
         double wh = lastX - startX;
         double hg = lastY - startY;
-        gcF.setLineWidth(sizeSlider.getValue());
+        workingPicture.setLineWidth(sizeSlider.getValue());
 
         if(fillRB.isSelected()){
-            gcF.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
-            gcF.setFill(colorPick.getValue());
-            gcF.fillOval(startX, startY, wh, hg);
+            workingPicture.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
+            workingPicture.setFill(colorPicker.getValue());
+            workingPicture.fillOval(startX, startY, wh, hg);
         }else{
-            gcF.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
-            gcF.setStroke(colorPick.getValue());
-            gcF.strokeOval(startX, startY, wh, hg );
+            workingPicture.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
+            workingPicture.setStroke(colorPicker.getValue());
+            workingPicture.strokeOval(startX, startY, wh, hg );
         }
        }
 
-    private void drawRectEffect()
+    private void drawRectangleEffect()
     {
         double wh = lastX - startX;
         double hg = lastY - startY;
-        gcF.setLineWidth(sizeSlider.getValue());
+        workingPicture.setLineWidth(sizeSlider.getValue());
 
         if(fillRB.isSelected()){
-            gcF.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
-            gcF.setFill(colorPick.getValue());
-            gcF.fillRect(startX, startY, wh, hg);
+            workingPicture.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
+            workingPicture.setFill(colorPicker.getValue());
+            workingPicture.fillRect(startX, startY, wh, hg);
         }else{
-            gcF.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
-            gcF.setStroke(colorPick.getValue());
-            gcF.strokeRect(startX, startY, wh, hg );
+            workingPicture.clearRect(0, 0, workingCanvas.getWidth(), workingCanvas.getHeight());
+            workingPicture.setStroke(colorPicker.getValue());
+            workingPicture.strokeRect(startX, startY, wh, hg );
         }
     }
 
     private void drawLineEffect()
     {
-        gcF.setLineWidth(sizeSlider.getValue());
-        gcF.setStroke(colorPick.getValue());
-        gcF.clearRect(0, 0, workingCanvas.getWidth() , workingCanvas.getHeight());
-        gcF.strokeLine(startX, startY, lastX, lastY);
+        workingPicture.setLineWidth(sizeSlider.getValue());
+        workingPicture.setStroke(colorPicker.getValue());
+        workingPicture.clearRect(0, 0, workingCanvas.getWidth() , workingCanvas.getHeight());
+        workingPicture.strokeLine(startX, startY, lastX, lastY);
     }
     ///////////////////////////////////////////////////////////////////////
 
@@ -185,64 +199,34 @@ public class PaintController implements Initializable {
     private void clearCanvas(ActionEvent e)
     {
         finalPicture.clearRect(0, 0, finalCanvas.getWidth(), finalCanvas.getHeight());
-        gcF.clearRect(0, 0, finalCanvas.getWidth(), finalCanvas.getHeight());
+        workingPicture.clearRect(0, 0, finalCanvas.getWidth(), finalCanvas.getHeight());
     }
 
 
     //>>>>>>>>>>>>>>>>>>>>>Buttons control<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @FXML
     private void setOvalAsCurrentShape(ActionEvent e) {
-        drawline = false;
-        drawoval = true;
-        drawrectangle = false;
-        freedesign = false;
-        erase = false;
+        this.option = "oval";
     }
 
     @FXML
     private void setLineAsCurrentShape(ActionEvent e) {
-        drawline = true;
-        drawoval = false;
-        drawrectangle = false;
-        freedesign = false;
-        erase = false;
+        this.option = "line";
     }
     
     @FXML
     private void setRectangleAsCurrentShape(ActionEvent e) {
-        drawline = false;
-        drawoval = false;
-        freedesign = false;
-        erase=false;
-        drawrectangle = true;
-    }
-
-    @FXML
-    private void setErase(ActionEvent e) {
-        drawline = false;
-        drawoval = false;
-        drawrectangle = false;    
-        erase = true;
-        freedesign= false;
-    }
-
-    @FXML
-    private void setFreeDesign(ActionEvent e) {
-        drawline = false;
-        drawoval = false;
-        drawrectangle = false;    
-        erase = false;
-        freedesign = true;
+        this.option = "rectangle";
     }
     
     @FXML
     private void setCurveAsCurrentShape(ActionEvent e) {
-        
+        this.option = "curve";
     }
     
     @FXML
     private void setPencilAsCurrentShape(ActionEvent e) {
-        
+        this.option = "pencil";
     }
 
     //////////////////////////////////////////////////////////////////
@@ -251,10 +235,16 @@ public class PaintController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         finalPicture = finalCanvas.getGraphicsContext2D();
-        gcF = workingCanvas.getGraphicsContext2D();
+        workingPicture = workingCanvas.getGraphicsContext2D();
 
         sizeSlider.setMin(1);
         sizeSlider.setMax(50);
+        
+        rectangleButton.setToggleGroup(toggleGroupForShapes);
+        lineButton.setToggleGroup(toggleGroupForShapes);
+        curveButton .setToggleGroup(toggleGroupForShapes);
+        ovalButton.setToggleGroup(toggleGroupForShapes);
+        pencilButton.setToggleGroup(toggleGroupForShapes);
     }    
 
 }

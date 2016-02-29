@@ -20,6 +20,8 @@ public class MainApp extends Application {
         stage.setTitle("Paint");
         stage.setScene(scene);
         stage.show();
+        
+        
         /*Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction(new EventHandler<ActionEvent>() {

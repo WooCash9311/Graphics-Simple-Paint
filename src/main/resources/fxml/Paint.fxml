@@ -22,7 +22,7 @@
             <ToggleButton fx:id="pencilButton" mnemonicParsing="false" onAction="#setPencilAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Ołówek" textAlignment="CENTER" />
             <Separator maxWidth="150.0" prefWidth="150.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz kolor:" />
-            <ColorPicker fx:id="colorPick" prefHeight="25.0" prefWidth="120.0" promptText="Kolor" />
+            <ColorPicker fx:id="colorPicker" prefHeight="25.0" prefWidth="120.0" promptText="Kolor" />
             <Separator maxWidth="150.0" prefWidth="150.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz sposób rysowania:" />
             <RadioButton fx:id="strokeRB" mnemonicParsing="false" selected="true" text="Kontury">
@@ -39,7 +39,6 @@
         </items>
       </ToolBar>
       <Canvas fx:id="finalCanvas" height="600.0" layoutX="150.0" width="851.0" />
-      <!-- myszka:  -->
-      <Canvas fx:id="workingCanvas" height="600.0" layoutX="150.0" onMouseDragged="#onMouseDraggedListener" onMouseExited="#onMouseExitedListener" onMousePressed="#onMousePressedListener" onMouseReleased="#onMouseReleaseListener" width="851.0" />          
+      <Canvas fx:id="workingCanvas" height="600.0" layoutX="150.0" onMouseDragged="#onMouseDraggedListener" onMousePressed="#onMousePressedListener" onMouseReleased="#onMouseReleaseListener" width="851.0" />          
    </children>
 </AnchorPane>
