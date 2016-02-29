@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -36,8 +37,11 @@ public class PaintController implements Initializable {
     @FXML
     private Canvas TheCanvas,canvasGo;
     
-    @FXML 
-    private Button rectButton,lineButton,ovlButton,pencButton;
+    //@FXML 
+    //private Button rectButton,lineButton,ovlButton,pencButton;
+    
+    @FXML
+    private ToggleButton rectangleButton, lineButton, ovalButton;
     
     @FXML 
     private Slider sizeSlider;
@@ -246,31 +250,6 @@ public class PaintController implements Initializable {
 
         sizeSlider.setMin(1);
         sizeSlider.setMax(50);
-
-        //////////////////////////////////
-        /*Image imageRect = new Image(getClass().getResourceAsStream("Stop-32.png"));
-        ImageView icR = new ImageView(imageRect);
-        icR.setFitWidth(32);
-        icR.setFitHeight(32);
-        rectButton.setGraphic(icR);  
-
-        Image imageLinea = new Image(getClass().getResourceAsStream("Ruler-32.png"));
-        ImageView icLin = new ImageView(imageLinea);
-        icLin.setFitWidth(32);
-        icLin.setFitHeight(32);
-        lineButton.setGraphic(icLin);
-
-        Image imageOvalo = new Image(getClass().getResourceAsStream("Chart-32.png"));
-        ImageView icOval = new ImageView(imageOvalo);
-        icOval.setFitWidth(32);
-        icOval.setFitHeight(32);
-        ovlButton.setGraphic(icOval);
-
-        Image imageLapiz = new Image(getClass().getResourceAsStream("Pencil-32.png"));
-        ImageView icLapiz = new ImageView(imageLapiz);
-        icLapiz.setFitWidth(32);
-        icLapiz.setFitHeight(32);
-        pencButton.setGraphic(icLapiz); */
     }    
 
 }

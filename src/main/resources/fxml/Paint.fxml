@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -7,32 +10,36 @@
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="453.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.woocash.PaintController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.woocash.PaintController">
     <children>
-      <ToolBar orientation="VERTICAL" prefHeight="453.0" prefWidth="107.0">
+      <ToolBar orientation="VERTICAL" prefHeight="600.0" prefWidth="150.0">
         <items>
-          <Button fx:id="rectButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#setRectangleAsCurrentShape" text="Rectangulo" />
-            <Button fx:id="lineButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#setLineAsCurrentShape" text="Linea" />
-            <Button fx:id="ovlButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#setOvalAsCurrentShape" text="Ovalo" />
-            <Button fx:id="pencButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#setFreeDesign" text="Lapiz" />
-            <MenuButton mnemonicParsing="false" prefWidth="78.0" text="Borrador">
-              <items>
-                <MenuItem fx:id="eraser" mnemonicParsing="false" onAction="#setErase" text="Gumka" />
-                <MenuItem fx:id="clean" mnemonicParsing="false" onAction="#clearCanvas" text="Wyczyść Okno" />
-              </items>
-            </MenuButton>
-            <ColorPicker fx:id="colorPick" prefHeight="25.0" prefWidth="78.0" />
-            <RadioButton fx:id="strokeRB" mnemonicParsing="false" selected="true" text="Stroke">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kształty:" />
+            <ToggleButton fx:id="rectangleButton" mnemonicParsing="false" onAction="#setRectangleAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Prostokąt" textAlignment="CENTER" />
+            <ToggleButton fx:id="lineButton" mnemonicParsing="false" onAction="#setLineAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Linia" textAlignment="CENTER" />
+            <!-- <ToggleButton fx:id="curveButton" mnemonicParsing="false" onAction="#setCurveAsCurrentShape" prefHeight="25.0" prefWidth="80.0" selected="true" text="Krzywa" textAlignment="CENTER" /> -->
+            <ToggleButton fx:id="ovalButton" mnemonicParsing="false" onAction="#setOvalAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Owal" textAlignment="CENTER" />
+            <!-- <ToggleButton fx:id="pencilButton" mnemonicParsing="false" onAction="#setPencilAsCurrentShape" prefHeight="25.0" prefWidth="80.0" text="Ołówek" textAlignment="CENTER" /> -->
+            <Separator maxWidth="150.0" prefWidth="150.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz kolor:" />
+            <ColorPicker fx:id="colorPick" prefHeight="25.0" prefWidth="120.0" promptText="Kolor" />
+            <Separator maxWidth="150.0" prefWidth="150.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz sposób rysowania:" />
+            <RadioButton fx:id="strokeRB" mnemonicParsing="false" selected="true" text="Kontury">
                <toggleGroup>
                   <ToggleGroup fx:id="shapes" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="fillRB" mnemonicParsing="false" text="Fill" toggleGroup="$shapes" />
-            <Slider fx:id="sizeSlider" prefHeight="14.0" prefWidth="59.0" />          
+            <RadioButton fx:id="fillRB" mnemonicParsing="false" text="Wypełnione" toggleGroup="$shapes" />
+            <Separator maxWidth="150.0" prefWidth="150.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grubość" />
+            <Slider fx:id="sizeSlider" prefHeight="14.0" prefWidth="59.0" />
+            <Separator maxWidth="150.0" prefWidth="150.0" />
+            <Button fx:id="cleanButton" mnemonicParsing="false" onAction="#clearCanvas" text="Wyczyść" />          
         </items>
       </ToolBar>
-      <Canvas fx:id="TheCanvas" height="453.0" layoutX="107.0" width="546.0" />
+      <Canvas fx:id="TheCanvas" height="600.0" layoutX="150.0" width="851.0" />
       <!-- myszka:  -->
-      <Canvas fx:id="canvasGo" height="453.0" layoutX="107.0" onMouseDragged="#onMouseDraggedListener" onMouseExited="#onMouseExitedListener" onMousePressed="#onMousePressedListener" onMouseReleased="#onMouseReleaseListener" width="546.0" />          
+      <Canvas fx:id="canvasGo" height="600.0" layoutX="150.0" onMouseDragged="#onMouseDraggedListener" onMouseExited="#onMouseExitedListener" onMousePressed="#onMousePressedListener"  width="851.0" />          
    </children>
 </AnchorPane>
